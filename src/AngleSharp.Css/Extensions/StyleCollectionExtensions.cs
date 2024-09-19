@@ -44,8 +44,24 @@ namespace AngleSharp.Css
         public static ICssStyleDeclaration ComputeDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
         {
             var ctx = element.Owner?.Context;
+            var declarations = GetDeclarations(styles, element, pseudoSelector);
+            var context = new CssComputeContext(styles.Device, ctx, declarations);
+
+            return declarations.Compute(context);
+        }
+
+        /// <summary>
+        /// Gets the declarations for the given element in the context of
+        /// the specified styling rules.
+        /// </summary>
+        /// <param name="styles">The styles to use.</param>
+        /// <param name="element">The element that is questioned.</param>
+        /// <param name="pseudoSelector">The optional pseudo selector to use.</param>
+        /// <returns>The style declaration containing all the declarations.</returns>
+        public static ICssStyleDeclaration GetDeclarations(this IStyleCollection styles, IElement element, String pseudoSelector = null)
+        {
+            var ctx = element.Owner?.Context;
             var computedStyle = new CssStyleDeclaration(ctx);
-            var context = new CssComputeContext(styles.Device, ctx, computedStyle);
             var nodes = element.GetAncestors().OfType<IElement>();
 
             if (!String.IsNullOrEmpty(pseudoSelector))
@@ -65,7 +81,7 @@ namespace AngleSharp.Css
                 computedStyle.UpdateDeclarations(styles.ComputeCascadedStyle(node));
             }
 
-            return computedStyle.Compute(context);
+            return computedStyle;
         }
 
         /// <summary>

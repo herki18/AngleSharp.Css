@@ -26,6 +26,24 @@ namespace AngleSharp.Css.Tests.Extensions
         }
 
         [Test]
+        public void SimpleSelectorNestingImplicitDeclarations()
+        {
+            var source = @"<!doctype html><head><style>.foo {
+  color: green;
+  .bar {
+    font-size: 1.4rem;
+  }
+}</style></head><body class='foo'><div class='bar'>Larger and green";
+            var document = ParseDocument(source);
+            var window = document.DefaultView;
+            var element = document.QuerySelector(".bar");
+            var styleCollection = window.GetStyleCollection();
+            var style = styleCollection.GetDeclarations(element);
+
+            Assert.AreEqual("1.4rem", style.GetFontSize());
+        }
+
+        [Test]
         public void SimpleSelectorNestingExplicit()
         {
             var source = @"<!doctype html><head><style>.foo {

@@ -9,7 +9,7 @@
     /// this underlying state depends upon the source of the CSSStyleDeclaration instance.
     /// </summary>
     [DomName("CSSStyleDeclaration")]
-    public interface ICssStyleDeclaration : ICssProperties, IStyleFormattable, IBindable
+    public interface ICssStyleDeclaration : ICssProperties, IStyleFormattable, IBindable, ICssStyleDeclarationBase
     {
         /// <summary>
         /// Gets the name of the property with the specified index.

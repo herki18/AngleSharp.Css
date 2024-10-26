@@ -1,3 +1,5 @@
+using AngleSharp.ViewSync;
+
 namespace AngleSharp.Css.Dom
 {
     using AngleSharp.Dom;
@@ -274,6 +276,8 @@ namespace AngleSharp.Css.Dom
             return _host.ReplaceChild(newChild, oldChild);
         }
 
+        public IViewSynchronizer ViewSync { get; }
+
         public void AddEventListener(String type, DomEventHandler callback = null, Boolean capture = false)
         {
             _host.AddEventListener(type, callback, capture);
@@ -293,6 +297,9 @@ namespace AngleSharp.Css.Dom
         {
             return _host.Dispatch(ev);
         }
+
+        public event EventHandler<EventSyncedArgs> EventSynced;
+        public event EventHandler<EventUnregisteredArgs> EventUnregistered;
 
         public void Append(params INode[] nodes)
         {

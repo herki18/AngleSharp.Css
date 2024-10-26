@@ -24,6 +24,8 @@ namespace AngleSharp.Css.Dom
         void IEventTarget.AddEventListener(string type, DomEventHandler callback, bool capture) => _host.AddEventListener(type, callback, capture);
 
         bool IEventTarget.Dispatch(Event ev) => _host.Dispatch(ev);
+        public event EventHandler<EventSyncedArgs> EventSynced;
+        public event EventHandler<EventUnregisteredArgs> EventUnregistered;
 
         void IEventTarget.InvokeEventListener(Event ev) => _host.InvokeEventListener(ev);
 
